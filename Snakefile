@@ -22,7 +22,8 @@ if "config" not in globals() or not config:  # skip when used as sub-workflow
     if not exists("config.yaml"):
         copyfile("config.tutorial.yaml", "config.yaml")
 
-    configfile: "config.yaml"
+    configfile: "pypsa-kz-data/config_kz_default.yaml"
+    configfile: "pypsa-kz-data/config_kz_2018_base_2060.yaml"
 
 
 configfile: "configs/bundle_config.yaml"
@@ -43,9 +44,9 @@ CDIR = RDIR if not run.get("shared_cutouts") else ""
 
 load_data_paths = get_load_paths_gegis("data", config)
 if config["enable"].get("retrieve_cost_data", True):
-    COSTS = "resources/" + RDIR + "costs.csv"
+    COSTS = "resources/" + RDIR + f"costs_{config['costs']['year']}.csv"
 else:
-    COSTS = "data/costs.csv"
+    COSTS = f"data/costs_{config['costs']['year']}.csv"
 ATLITE_NPROCESSES = config["atlite"].get("nprocesses", 4)
 
 
